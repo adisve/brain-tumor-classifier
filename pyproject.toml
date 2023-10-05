@@ -1,0 +1,33 @@
+[project]
+name = "Machine-Learning-Project"
+version = "0.0.0"
+description = "Machine learning project for HKR Machine Learning course"
+authors = [
+ { name = "Adis Veletanlic", email = "adis.veletanlic@gmail.com" } 
+]
+
+# All the external packages our project depends on. 
+# Versioning can also be specified.
+dependencies = [
+  "build",
+  "jupyter",
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "scipy",
+  "scikit-learn",
+  "tensorflow",
+  "torchvision",
+  "torch"
+]
+
+[tool.setuptools.packages.find]
+exclude = ["Testing", "Training"]
+
+# Dependencies required by the build system
+[build-system]
+requires = [
+  "setuptools>=46.1.3",
+  "wheel>=0.34.2"
+]
+build-backend = "setuptools.build_meta"
