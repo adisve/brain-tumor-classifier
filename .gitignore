@@ -6,3 +6,4 @@ Training
 model/
 *.txt
 *.h5
+.DS_Store
