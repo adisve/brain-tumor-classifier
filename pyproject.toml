@@ -1,13 +1,11 @@
 [project]
-name = "Machine-Learning-Project"
+name = "Brain-Tumor-Classifier"
 version = "0.0.0"
-description = "Machine learning project for HKR Machine Learning course"
+description = "Brain tumor classifier for HKR Machine Learning course"
 authors = [
  { name = "Adis Veletanlic", email = "adis.veletanlic@gmail.com" } 
 ]
 
-# All the external packages our project depends on. 
-# Versioning can also be specified.
 dependencies = [
   "build",
   "jupyter",
@@ -18,13 +16,17 @@ dependencies = [
   "scikit-learn",
   "tensorflow",
   "torchvision",
-  "torch"
+  "torch",
+  "opencv-python",
+  "scikit-image",
+  "imutils",
+  "pydicom",
+  "tqdm"
 ]
 
 [tool.setuptools.packages.find]
 exclude = ["Testing", "Training"]
 
-# Dependencies required by the build system
 [build-system]
 requires = [
   "setuptools>=46.1.3",
