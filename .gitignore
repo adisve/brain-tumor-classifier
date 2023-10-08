@@ -4,3 +4,5 @@ build/
 Testing
 Training
 model/
+*.txt
+*.h5
