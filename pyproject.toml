@@ -17,6 +17,7 @@ dependencies = [
   "tensorflow",
   "torchvision",
   "torch",
+  "tqdm",
   "opencv-python",
   "scikit-image",
   "imutils",
