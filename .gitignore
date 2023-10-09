@@ -1,9 +1,9 @@
 build/
 .venv/
 *.egg-info
-Testing
-Training
-model/
 *.txt
 *.h5
 .DS_Store
+data_dump
+dataset
+data

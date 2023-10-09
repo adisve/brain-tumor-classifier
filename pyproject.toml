@@ -21,7 +21,9 @@ dependencies = [
   "scikit-image",
   "imutils",
   "pydicom",
-  "tqdm"
+  "tqdm",
+  "zipfile36",
+  "h5py"
 ]
 
 [tool.setuptools.packages.find]
