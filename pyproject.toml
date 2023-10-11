@@ -24,7 +24,8 @@ dependencies = [
   "pydicom",
   "tqdm",
   "zipfile36",
-  "h5py"
+  "h5py",
+  "seaborn"
 ]
 
 [tool.setuptools.packages.find]
