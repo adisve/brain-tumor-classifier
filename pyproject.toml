@@ -25,7 +25,10 @@ dependencies = [
   "tqdm",
   "zipfile36",
   "h5py",
-  "seaborn"
+  "seaborn",
+  "uvicorn",
+  "fastapi",
+  "python-multipart"
 ]
 
 [tool.setuptools.packages.find]
