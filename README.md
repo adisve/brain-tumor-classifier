@@ -27,13 +27,13 @@ This repository contains code for classifying different types of brain tumors us
 1. Clone the Repository: Clone this repository to a folder of your choice.
 
     ```bash
-    git clone https://github.com/your-github-url.git
+    git clone https://github.com/adisve/brain-tumor-classifier.git
     ```
 
 2. Navigate to the Project Folder: Move into the cloned project directory.
 
     ```bash
-    cd your-project-directory
+    cd brain-tumor-classifier
     ```
 
 3. Virtual Environment (Recommended): It's often best to create a virtual environment to isolate package dependencies. To create a virtual environment, run the following command:
