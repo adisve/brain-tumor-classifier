@@ -13,3 +13,17 @@ async function getPrediction() {
     const data = await response.json();
     alert('Predicted Label: ' + data.label);
 }
+
+function updateImagePreview() {
+    console.log('Updating image preview')
+    const fileInput = document.getElementById('file-input');
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const imagePlaceholder = document.getElementById('image-placeholder');
+        imagePlaceholder.src = e.target.result;
+    };
+    
+    reader.readAsDataURL(file);
+}

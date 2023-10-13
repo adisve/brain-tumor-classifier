@@ -1,0 +1,39 @@
+* { 
+	box-sizing: border-box;
+}
+html, body {
+    text-align: center;
+    background-color: #79A9D1;
+	min-height: 100%;
+}
+	
+body {
+	font-size: 1.4rem;
+	text-rendering: optimizeLegibility;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#image-placeholder {
+    width: 25%;
+    height: 25%;
+    height: auto;
+    border-radius: 5%;
+}
+
+#upload-button,
+#predict-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #182825;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}

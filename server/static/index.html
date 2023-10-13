@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
     <title>Brain Tumor Classifier</title>
 </head>
 <body>
-    <div>
-        <input type="file" id="file-input">
-        <button onclick="getPrediction()">Predict</button>
+    <div id="app">
+        <img id="image-placeholder" src="/static/placeholder.png" alt="Placeholder for image upload">
+        <input type="file" id="file-input" style="display:none;" onchange="updateImagePreview()">
+        <button id="upload-button" onclick="document.getElementById('file-input').click()">Upload Image</button>
+        <button id="predict-button" onclick="getPrediction()">Predict</button>
     </div>
 </body>
 </html>
