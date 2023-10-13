@@ -75,16 +75,20 @@ Building a machine learning model from scratch may sound intimidating, but libra
 We start by importing necessary Python libraries and loading our dataset. The data consists of medical images, which we preprocess using various techniques like resizing, filtering, and normalization.
 
 ```py
-import numpy as np
-import tensorflow as tf
-from tensorflow import keras
+import os
 
-# Load dataset
-X_train, y_train, X_test, y_test = load_dataset()
+def load_data(path, labels):
+    X, y = [], []
+    for label in labels:
+        label_path = os.path.join(path, label)
+        for file in os.listdir(label_path):
+            image = augment_image_file(os.path.join(label_path, file))
+            X.append(image)
+            y.append(labels.index(label))
+    return np.array(X) / 255.0, y
 
-# Preprocess data
-X_train = preprocess_images(X_train)
-X_test = preprocess_images(X_test)
+X_train, y_train = load_data(training_dir, labels)
+X_test, y_test = load_data(testing_dir, labels)
 ```
 
 ## Model Architecture
@@ -110,8 +114,8 @@ Once the architecture is set, we need to compile our model. This involves specif
 
 ```py
 model.compile(
-    optimizer='adam', 
-    loss = 'categorical_crossentropy', 
+    optimizer=keras.optimizers.Adam(learning_rate=0.0001), 
+    loss='categorical_crossentropy', 
     metrics=['accuracy', 'AUC']
 )
 ```
@@ -141,7 +145,7 @@ print(f'Test Accuracy: {test_acc}')
 print(f'Test Loss: {test_loss}')
 print(f'Test AUC: {test_auc}')
 
-model.save('brain_tumor_classifier.keras')
+model.save('model.keras')
 ```
 
 By breaking down each of these steps, you can see that programming a machine learning model is a structured process. Each step serves a specific purpose and they all come together to create a robust classification model.
@@ -159,7 +163,7 @@ async def predict(file: UploadFile = File(...)):
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     image = augment_image_cv2(image)
 
-    array = np.expand_dims(image, axis=0)
+    array = np.expand_dims(image, axis=0) / 255.0
     prediction = classifier.model.predict(array)
     label = np.argmax(prediction)
 
@@ -170,7 +174,7 @@ async def predict(file: UploadFile = File(...)):
 
 Finally, we create a small front-end web application using HTML and JavaScript, just to visualize how the model can be used practically. The user can upload an image, which gets sent to our FastAPI back end, and receives a prediction.
 
-<img src="web1.png" style="width: 1000px; height: 500px;">
+<img src="web2.png" style="width: 1000px; height: 500px;">
 
 ## How it All Fits Together
 

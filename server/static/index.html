@@ -9,9 +9,10 @@
 </head>
 <body>
     <div id="app">
+        <h4 id="prediction-text"></h4>
         <img id="image-placeholder" src="/static/placeholder.png" alt="Placeholder for image upload">
         <input type="file" id="file-input" style="display:none;" onchange="updateImagePreview()">
-        <button id="upload-button" onclick="document.getElementById('file-input').click()">Upload Image</button>
+        <button id="upload-button" onclick="onClickUpload()">Upload Image</button>
         <button id="predict-button" onclick="getPrediction()">Predict</button>
     </div>
 </body>

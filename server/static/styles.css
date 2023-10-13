@@ -1,6 +1,7 @@
 * { 
 	box-sizing: border-box;
 }
+
 html, body {
     text-align: center;
     background-color: #79A9D1;
@@ -36,4 +37,12 @@ body {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1.5rem;
+}
+
+#prediction-text {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem;
 }

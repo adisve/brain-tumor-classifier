@@ -28,10 +28,10 @@ async def predict(file: UploadFile = File(...)):
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     image = augment_image_cv2(image)
 
-    array = np.expand_dims(image, axis=0)
+    array = np.expand_dims(image, axis=0) / 255.0
     prediction = classifier.model.predict(array)
     label = np.argmax(prediction)
-
+    
     return {"label": labels[label]}
 
 @app.get('/')

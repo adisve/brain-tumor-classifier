@@ -11,11 +11,13 @@ async function getPrediction() {
     });
     
     const data = await response.json();
-    alert('Predicted Label: ' + data.label);
+    const prediction = data.label;
+
+    let predictionText = document.getElementById('prediction-text')
+    predictionText.innerText = `Predicted Label: ${prediction}`
 }
 
 function updateImagePreview() {
-    console.log('Updating image preview')
     const fileInput = document.getElementById('file-input');
     const file = fileInput.files[0];
     const reader = new FileReader();
@@ -26,4 +28,8 @@ function updateImagePreview() {
     };
     
     reader.readAsDataURL(file);
+}
+
+function onClickUpload() {
+    document.getElementById('file-input').click()
 }
