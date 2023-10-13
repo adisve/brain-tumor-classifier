@@ -10,7 +10,7 @@ import cv2
 
 classifier = BrainTumorClassifier()
 
-labels = ['glioma', 'meningioma', 'no_tumor', 'pituitary']
+labels = ['Glioma', 'Meningioma', 'No tumor', 'Pituitary']
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -32,7 +32,7 @@ async def predict(file: UploadFile = File(...)):
     prediction = classifier.model.predict(array)
     label = np.argmax(prediction)
 
-    return {"label": str(label)}
+    return {"label": labels[label]}
 
 @app.get('/')
 async def index():
