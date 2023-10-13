@@ -3,7 +3,11 @@ import cv2
 
 class BrainTumorClassifier():
     def __init__(self) -> None:
+<<<<<<< HEAD
         self.model = self.load_model(model_path='../model/model.keras')
+=======
+        self.model = self.load_model(model_path='../model/model.h5')
+>>>>>>> 8b898a0c2432f21aa39379206f0d93edb575af3a
 
     def load_model(self, model_path):
         try:
