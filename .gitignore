@@ -10,3 +10,4 @@ data
 Testing
 Training
 __pycache__
+*.keras
