@@ -6,6 +6,7 @@ This repository contains code for classifying different types of brain tumors us
 
 - [Brain Tumor Classification with ResNet50 and Web Service](#brain-tumor-classification-with-resnet50-and-web-service)
 - [Table of Contents](#table-of-contents)
+  - [Datasets used](#datasets-used)
   - [Prerequisites](#prerequisites)
 - [Setup](#setup)
     - [Install Dependencies](#install-dependencies)
@@ -15,6 +16,12 @@ This repository contains code for classifying different types of brain tumors us
   - [Model Training and Testing](#model-training-and-testing)
     - [Training](#training)
     - [Evaluation](#evaluation)
+
+## Datasets used
+
+The data used for training and testing the model is a combination of the following two datasets:
+- https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
+- https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri
 
 ## Prerequisites
 
