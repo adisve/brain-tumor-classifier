@@ -11,3 +11,4 @@ Testing
 Training
 __pycache__
 *.keras
+*.pdf

@@ -91,33 +91,37 @@ X_train, y_train = load_data(training_dir, labels)
 X_test, y_test = load_data(testing_dir, labels)
 ```
 
-## Model Architecture
+## Model Architecture and Compilation
 
 After preprocessing our dataset, the next step is to define the architecture of the machine learning model. For this project, a Convolutional Neural Network (CNN) built on top of a pre-trained ResNet50 architecture is used.
-
-```py
-resnet = ResNet50(
-    weights='imagenet',
-    include_top=False,
-    input_shape=(image_size, image_size, 3)
-)
-model = resnet.output
-model = GlobalAveragePooling2D()(model)
-model = Dropout(0.4)(model)
-model = Dense(4, activation='softmax')(model)
-model = Model(inputs=resnet.input, outputs=model)
-```
-
-## Model Compilation
 
 Once the architecture is set, we need to compile our model. This involves specifying the optimizer, loss function, and metrics to monitor.
 
 ```py
-model.compile(
-    optimizer=keras.optimizers.Adam(learning_rate=0.0001), 
-    loss='categorical_crossentropy', 
-    metrics=['accuracy', 'AUC']
-)
+def build_and_compile_model():
+    resnet = ResNet50(
+        weights='imagenet',
+        include_top=False,
+        input_shape=(image_size, image_size, 3)
+    )
+    model = Model(
+        inputs=resnet.input, 
+        outputs=Dense(4, activation='softmax', kernel_regularizer=l2(0.01))(
+            Dropout(0.4)(
+                GlobalAveragePooling2D()(resnet.output)
+            )
+        )
+    )
+    model.compile(
+        optimizer=keras.optimizers.Adam(learning_rate=0.0001), 
+        loss='categorical_crossentropy', 
+        metrics=['accuracy', 'AUC']
+    )
+    
+    return model
+
+model = build_and_compile_model()
+model.summary()
 ```
 
 ## Training the Model
@@ -148,6 +152,8 @@ print(f'Test AUC: {test_auc}')
 model.save('model.keras')
 ```
 
+>Our model reaches about 97% accuracy and has a very good prediction metric.
+
 By breaking down each of these steps, you can see that programming a machine learning model is a structured process. Each step serves a specific purpose and they all come together to create a robust classification model.
 
 ## Deploying the Model with FastAPI
@@ -174,7 +180,7 @@ async def predict(file: UploadFile = File(...)):
 
 Finally, we create a small front-end web application using HTML and JavaScript, just to visualize how the model can be used practically. The user can upload an image, which gets sent to our FastAPI back end, and receives a prediction.
 
-<img src="web2.png" style="width: 1000px; height: 500px;">
+<img src="web_screenshot.png" style="width: 1000px; height: 500px;">
 
 ## How it All Fits Together
 
