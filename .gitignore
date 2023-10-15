@@ -12,3 +12,4 @@ Training
 __pycache__
 *.keras
 *.pdf
+prediction_results.txt
