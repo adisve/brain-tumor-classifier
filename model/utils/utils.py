@@ -47,7 +47,7 @@ def build_and_compile_model(architecture, image_size=224, dropout_rate=0.4, lear
     
     x = GlobalAveragePooling2D()(base_model.output)
     x = Dropout(dropout_rate)(x)
-    x = Dense(4, activation='softmax', kernel_regularizer=l2(regularizer_value))(x)
+    x = Dense(4, activation='softmax', kernel_regularizer=l2(regularizer_value))(x) # Since we are using pretrained weights we do not need to specify an initializer like GlorotUniform in our layers
     
     model = Model(inputs=base_model.input, outputs=x)
     model.compile(optimizer=keras.optimizers.Adam(learning_rate=learning_rate), 
