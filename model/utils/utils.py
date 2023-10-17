@@ -7,17 +7,8 @@ import numpy as np
 import cv2
 import os
 
-def list_subfolders(directory):
+def get_subfolders(directory):
     return [f.name for f in os.scandir(directory) if f.is_dir()]
-
-def _get_first_image_from_subfolder(subfolder_path):
-    image_files = os.listdir(subfolder_path)
-    if image_files:
-        image_path = os.path.join(subfolder_path, image_files[0])
-        image = cv2.imread(image_path)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        return image
-    return None
 
 def display_images_from_subfolders(training_dir, subfolders):
     plt.figure(figsize=(12, 8))
@@ -29,20 +20,13 @@ def display_images_from_subfolders(training_dir, subfolders):
             plt.axis('off')
             plt.imshow(image)
     plt.show()
-    
-def _augment_image_file(file):
-    image = cv2.imread(file, 0) 
-    image = cv2.bilateralFilter(image, 2, 50, 50)
-    image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
-    image = cv2.resize(image, (image_size, image_size))
-    return image
 
 def load_data(path, labels):
     X, y = [], []
     for label in labels:
         label_path = os.path.join(path, label)
         for file in os.listdir(label_path):
-            image = _augment_image_file(os.path.join(label_path, file))
+            image = _transform_image_file(os.path.join(label_path, file))
             X.append(image)
             y.append(labels.index(label))
     return np.array(X) / 255.0, y
@@ -75,18 +59,7 @@ def display_summaries(models):
     for model in models.values():
         model.summary()
         
-def train_models(
-    X_train,
-    y_train,
-    X_val,
-    y_val,
-    models_dict,
-    batch_size=64,
-    epochs=10,
-    min_delta=0.001,
-    patience=5,
-    lr_factor=0.3,
-    ):
+def train_models(X_train, y_train, X_val, y_val, models_dict, batch_size=64, epochs=10, in_delta=0.001, patience=5, lr_factor=0.3):
     history_dict = {}
     
     early_stopping, scheduler = _init_earlystopping_and_scheduler(min_delta, patience, lr_factor)
@@ -102,6 +75,22 @@ def train_models(
             callbacks=callbacks
         )
     return history_dict
+
+def _get_first_image_from_subfolder(subfolder_path):
+    image_files = os.listdir(subfolder_path)
+    if image_files:
+        image_path = os.path.join(subfolder_path, image_files[0])
+        image = cv2.imread(image_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return image
+    return None
+
+def _transform_image_file(file):
+    image = cv2.imread(file, 0) 
+    image = cv2.bilateralFilter(image, 2, 50, 50)
+    image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
+    image = cv2.resize(image, (image_size, image_size))
+    return image
 
 def _init_earlystopping_and_scheduler(min_delta, patience, lr_factor):
     early_stopping = EarlyStopping(
