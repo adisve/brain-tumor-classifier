@@ -1,19 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/static/script.js"></script>
-    <link rel="stylesheet" href="/static/styles.css">
-    <title>Brain Tumor Classifier</title>
-</head>
-<body>
-    <div id="app">
-        <h4 id="prediction-text"></h4>
-        <img id="image-placeholder" src="/static/placeholder.png" alt="Placeholder for image upload">
-        <input type="file" id="file-input" style="display:none;" onchange="updateImagePreview()">
-        <button id="upload-button" onclick="onClickUpload()">Upload Image</button>
-        <button id="predict-button" onclick="getPrediction()">Predict</button>
-    </div>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="/static/script.js"></script>
+        <link rel="stylesheet" href="/static/styles.css" />
+        <title>Brain Tumor Classifier</title>
+    </head>
+    <body>
+        <div id="app">
+            <h4 id="prediction-text"></h4>
+            <img
+                id="image-placeholder"
+                src="/static/placeholder.png"
+                alt="Placeholder for image upload"
+            />
+            <input
+                type="file"
+                id="file-input"
+                style="display: none"
+                onchange="updateImagePreview()"
+            />
+            <button id="upload-button" onclick="onClickUpload()">
+                Upload Image
+            </button>
+            <div style="margin-top: 20px; color: white; font-size: 1.5rem">
+                Predict:
+            </div>
+            <div>
+                <button id="predict-button" onclick="getPrediction('DenseNet')">
+                    DenseNet121
+                </button>
+                <button
+                    id="predict-button"
+                    onclick="getPrediction('EfficientNet')"
+                >
+                    EfficientNetB0
+                </button>
+                <button
+                    id="predict-button"
+                    onclick="getPrediction('MobileNet')"
+                >
+                    MobileNetV2
+                </button>
+                <button id="predict-button" onclick="getPrediction('ResNet')">
+                    ResNet50
+                </button>
+            </div>
+        </div>
+    </body>
 </html>

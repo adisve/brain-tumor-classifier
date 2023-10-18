@@ -6,7 +6,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from utils import augment_image_cv2, load_brain_tumor_classifier
+from utils import augment_image_cv2, load_brain_tumor_classifier, Classifier
 
 labels = ['Glioma', 'Meningioma', 'No tumor', 'Pituitary']
 
@@ -22,11 +22,11 @@ app.add_middleware(
 
 
 @app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
+async def predict(model: Classifier, file: UploadFile = File(...)):
     file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     image = augment_image_cv2(image)
-    classifier_model = load_brain_tumor_classifier("DenseNet")
+    classifier_model = load_brain_tumor_classifier(model)
 
     array = np.expand_dims(image, axis=0) / 255.0
     prediction = classifier_model.predict(array)

@@ -1,15 +1,24 @@
 import tensorflow as tf
 import cv2
+from enum import Enum
+
+
+class Classifier(str, Enum):
+    DenseNet = "DenseNet"
+    EfficientNet = "EfficientNet"
+    MobileNet = "MobileNet"
+    ResNet = "ResNet"
+
 
 classifier_map = {
     "DenseNet": "DenseNet.h5",
     "EfficientNet": "EfficientNet.h5",
     "MobileNet": "MobileNet.h5",
-    "ResNet": "ResNet.h5",
+    "ResNet": "ResNet50.h5",
 }
 
 
-def load_brain_tumor_classifier(c_key: str):
+def load_brain_tumor_classifier(c_key: Classifier):
     match classifier_map.get(c_key):
         case link if link is not None:
             return tf.keras.models.load_model("../model/" + link)

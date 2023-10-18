@@ -1,15 +1,16 @@
-* { 
-	box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
-html, body {
-    text-align: center;
-    background-color: #79A9D1;
-	min-height: 100%;
-}
-	
+html,
 body {
-	font-size: 1.4rem;
-	text-rendering: optimizeLegibility;
+    text-align: center;
+    background-color: #79a9d1;
+    min-height: 100%;
+}
+
+body {
+    font-size: 1.4rem;
+    text-rendering: optimizeLegibility;
 }
 
 #app {
