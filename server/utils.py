@@ -1,16 +1,21 @@
-from tensorflow import keras
+import tensorflow as tf
 import cv2
 
+classifier_map = {
+    "DenseNet": "DenseNet.h5",
+    "EfficientNet": "EfficientNet.h5",
+    "MobileNet": "MobileNet.h5",
+    "ResNet": "ResNet.h5",
+}
 
-class BrainTumorClassifier():
-    def __init__(self) -> None:
-        self.model = self.load_model(model_path='../model/model.keras')
 
-    def load_model(self, model_path):
-        try:
-            return keras.models.load_model(model_path)
-        except OSError:
-            return None
+def load_brain_tumor_classifier(c_key: str):
+    match classifier_map.get(c_key):
+        case link if link is not None:
+            return tf.keras.models.load_model("../model/" + link)
+
+        case _:
+            return "Classifier Model not found"
 
 
 def augment_image_cv2(image):

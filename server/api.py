@@ -1,14 +1,12 @@
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, File, UploadFile
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from utils import BrainTumorClassifier, augment_image_cv2
-from fastapi import FastAPI
 from pathlib import Path
-import numpy as np
-import cv2
 
-classifier = BrainTumorClassifier()
+import cv2
+import numpy as np
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from utils import augment_image_cv2, load_brain_tumor_classifier
 
 labels = ['Glioma', 'Meningioma', 'No tumor', 'Pituitary']
 
@@ -28,9 +26,10 @@ async def predict(file: UploadFile = File(...)):
     file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     image = augment_image_cv2(image)
+    classifier_model = load_brain_tumor_classifier("DenseNet")
 
     array = np.expand_dims(image, axis=0) / 255.0
-    prediction = classifier.model.predict(array)
+    prediction = classifier_model.predict(array)
     label = np.argmax(prediction)
 
     return {"label": labels[label]}
