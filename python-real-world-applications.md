@@ -24,47 +24,28 @@ Early and accurate diagnosis of brain tumors can significantly improve patient o
 
 An architecture diagram is a visual representation of the components or modules within a system and the relationships between them. In the context of machine learning or software development, an architecture diagram usually illustrates how different parts of the system interact with each other, what functionalities they perform, and how data flows between them.
 
-               +---------------+
-               |  Web Browser  |
-               +-------+-------+
-                       |
-                       | (User drags image)
-                       |
-                       v
-              +--------+--------+
-              |    Frontend     |
-              |  (HTML/JS/CSS)  |
-              +--------+--------+
-                       |
-                       | (Sends image via POST)
-                       |
-                       v
-             +---------+----------+
-             |      FastAPI       |
-             |     Backend API    |
-             +---------+----------+
-                       |
-                       | (Pre-process image)
-                       | (Load pre-trained model)
-                       | (Make prediction)
-                       |
-                       v
-           +-----------+------------+
-           |     Keras ML Model     |
-           +------------------------+
+    ```mermaid
+        graph TD
+            A[Web Browser] -- User drags image --> B[Frontend \nHTML/JS/CSS]
+            B -- Sends image via POST --> C[FastAPI Backend API]
+            C -- Pre-process image --> D[Keras ML Model]
+            D -- Make prediction --> C
+            C -- Return prediction --> B
+            B -- Display prediction --> A
+    ```
 
 ## Image Preprocessing
 
 We employ image preprocessing techniques to improve the model's performance. We use OpenCV to apply filters and resize the images.
 
-```py
-def augment_image_file(file):
-    image = cv2.imread(file, 0) 
-    image = cv2.bilateralFilter(image, 2, 50, 50)
-    image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
-    image = cv2.resize(image, (image_size, image_size))
-    return image
-```
+    ```py
+        def augment_image_file(file):
+            image = cv2.imread(file, 0) 
+            image = cv2.bilateralFilter(image, 2, 50, 50)
+            image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
+            image = cv2.resize(image, (image_size, image_size))
+            return image
+    ```
 
 ## Programming the Machine Learning Model
 
@@ -74,22 +55,22 @@ Building a machine learning model from scratch may sound intimidating, but libra
 
 We start by importing necessary Python libraries and loading our dataset. The data consists of medical images, which we preprocess using various techniques like resizing, filtering, and normalization.
 
-```py
-import os
+    ```py
+    import os
 
-def load_data(path, labels):
-    X, y = [], []
-    for label in labels:
-        label_path = os.path.join(path, label)
-        for file in os.listdir(label_path):
-            image = augment_image_file(os.path.join(label_path, file))
-            X.append(image)
-            y.append(labels.index(label))
-    return np.array(X) / 255.0, y
+    def load_data(path, labels):
+        X, y = [], []
+        for label in labels:
+            label_path = os.path.join(path, label)
+            for file in os.listdir(label_path):
+                image = augment_image_file(os.path.join(label_path, file))
+                X.append(image)
+                y.append(labels.index(label))
+        return np.array(X) / 255.0, y
 
-X_train, y_train = load_data(training_dir, labels)
-X_test, y_test = load_data(testing_dir, labels)
-```
+    X_train, y_train = load_data(training_dir, labels)
+    X_test, y_test = load_data(testing_dir, labels)
+    ```
 
 ## Model Architecture and Compilation
 
@@ -97,60 +78,60 @@ After preprocessing our dataset, the next step is to define the architecture of 
 
 Once the architecture is set, we need to compile our model. This involves specifying the optimizer, loss function, and metrics to monitor.
 
-```py
-def build_and_compile_model():
-    resnet = ResNet50(
-        weights='imagenet',
-        include_top=False,
-        input_shape=(image_size, image_size, 3)
-    )
-    model = Model(
-        inputs=resnet.input, 
-        outputs=Dense(4, activation='softmax', kernel_regularizer=l2(0.01))(
-            Dropout(0.4)(
-                GlobalAveragePooling2D()(resnet.output)
+    ```py
+    def build_and_compile_model():
+        resnet = ResNet50(
+            weights='imagenet',
+            include_top=False,
+            input_shape=(image_size, image_size, 3)
+        )
+        model = Model(
+            inputs=resnet.input, 
+            outputs=Dense(4, activation='softmax', kernel_regularizer=l2(0.01))(
+                Dropout(0.4)(
+                    GlobalAveragePooling2D()(resnet.output)
+                )
             )
         )
-    )
-    model.compile(
-        optimizer=keras.optimizers.Adam(learning_rate=0.0001), 
-        loss='categorical_crossentropy', 
-        metrics=['accuracy', 'AUC']
-    )
-    
-    return model
+        model.compile(
+            optimizer=keras.optimizers.Adam(learning_rate=0.0001), 
+            loss='categorical_crossentropy', 
+            metrics=['accuracy', 'AUC']
+        )
+        
+        return model
 
-model = build_and_compile_model()
-model.summary()
-```
+    model = build_and_compile_model()
+    model.summary()
+    ```
 
 ## Training the Model
 
 The most critical phase in building a machine learning model is the training stage. This is where the model learns to make predictions by fitting to the provided training data.
 
-```py
-history = model.fit(
-    image_gen.flow(
-        X_train, y_train, batch_size=20
-    ),
-    validation_data=(X_val, y_val),
-    epochs=EPOCHS,
-    callbacks=callbacks
-)
-```
+    ```py
+    history = model.fit(
+        image_gen.flow(
+            X_train, y_train, batch_size=20
+        ),
+        validation_data=(X_val, y_val),
+        epochs=EPOCHS,
+        callbacks=callbacks
+    )
+    ```
 
 ## Model Evaluation and Saving
 
 After training, we evaluate the model on a test set to measure its performance. If the model performs well, we save it for later use in deployment.
 
-```py
-test_loss, test_acc, test_auc = model.evaluate(X_test, y_test)
-print(f'Test Accuracy: {test_acc}')
-print(f'Test Loss: {test_loss}')
-print(f'Test AUC: {test_auc}')
+    ```py
+    test_loss, test_acc, test_auc = model.evaluate(X_test, y_test)
+    print(f'Test Accuracy: {test_acc}')
+    print(f'Test Loss: {test_loss}')
+    print(f'Test AUC: {test_auc}')
 
-model.save('model.keras')
-```
+    model.save('model.keras')
+    ```
 
 >Our model reaches about 97% accuracy and has a very good prediction metric.
 
@@ -160,21 +141,21 @@ By breaking down each of these steps, you can see that programming a machine lea
 
 FastAPI allows us to turn our trained model into a web-accessible API. The API accepts an image, preprocesses it, and returns a prediction from the model.
 
-```py
-from fastapi import FastAPI, File, UploadFile
+    ```py
+    from fastapi import FastAPI, File, UploadFile
 
-@app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
-    file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
-    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    image = augment_image_cv2(image)
+    @app.post("/predict/")
+    async def predict(file: UploadFile = File(...)):
+        file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
+        image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        image = augment_image_cv2(image)
 
-    array = np.expand_dims(image, axis=0) / 255.0
-    prediction = classifier.model.predict(array)
-    label = np.argmax(prediction)
+        array = np.expand_dims(image, axis=0) / 255.0
+        prediction = classifier.model.predict(array)
+        label = np.argmax(prediction)
 
-    return {"label": labels[label]}
-```
+        return {"label": labels[label]}
+    ```
 
 ## The Web Application
 
