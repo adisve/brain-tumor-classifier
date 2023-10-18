@@ -2,17 +2,17 @@
 
 This repository contains code for classifying different types of brain tumors using a Convolutional Neural Network (CNN) architecture called ResNet50. It also includes a web service built with FastAPI for real-time inference.
 
-# Table of Contents
+## Table of Contents
 
 - [Brain Tumor Classification with ResNet50 and Web Service](#brain-tumor-classification-with-resnet50-and-web-service)
 - [Table of Contents](#table-of-contents)
   - [Datasets used](#datasets-used)
   - [Prerequisites](#prerequisites)
 - [Setup](#setup)
-    - [Install Dependencies](#install-dependencies)
+  - [Install Dependencies](#install-dependencies)
 - [Web Service](#web-service)
-    - [Running the Service](#running-the-service)
-    - [API Endpoints](#api-endpoints)
+  - [Running the Service](#running-the-service)
+  - [API Endpoints](#api-endpoints)
   - [Model Training and Testing](#model-training-and-testing)
     - [Training](#training)
     - [Evaluation](#evaluation)
@@ -20,8 +20,9 @@ This repository contains code for classifying different types of brain tumors us
 ## Datasets used
 
 The data used for training and testing the model is a combination of the following two datasets:
-- https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
-- https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri
+
+- <https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset>
+- <https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri>
 
 ## Prerequisites
 
@@ -29,7 +30,7 @@ The data used for training and testing the model is a combination of the followi
 - pip
 - Virtual Environment (recommended)
 
-# Setup
+## Setup
 
 1. Clone the Repository: Clone this repository to a folder of your choice.
 
@@ -73,7 +74,7 @@ pip install .
 
 > This command reads the pyproject.toml file and installs all dependencies.
 
-# Web Service
+## Web Service
 
 The web service is built using FastAPI and provides real-time inferences from the trained model.
 
@@ -85,13 +86,14 @@ To run the web service on your local machine, navigate to the server/ directory 
 uvicorn api:app --reload
 ```
 
-This will start the FastAPI server and you can access the API documentation at http://127.0.0.1:8000/docs.
+This will start the FastAPI server and you can access the API documentation at <http://127.0.0.1:8000/docs>.
+
 ### API Endpoints
 
 - Predict: POST /predict/
-    - Accepts an MRI image and returns the type of brain tumor.
+  - Accepts an MRI image and returns the type of brain tumor.
 
-For detailed documentation, refer to the FastAPI generated documentation at http://127.0.0.1:8000/docs.
+For detailed documentation, refer to the FastAPI generated documentation at <http://127.0.0.1:8000/docs>.
 
 ## Model Training and Testing
 

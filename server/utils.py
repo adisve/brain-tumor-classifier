@@ -1,6 +1,7 @@
 from tensorflow import keras
 import cv2
 
+
 class BrainTumorClassifier():
     def __init__(self) -> None:
         self.model = self.load_model(model_path='../model/model.keras')

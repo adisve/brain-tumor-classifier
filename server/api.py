@@ -22,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
     file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
@@ -31,8 +32,9 @@ async def predict(file: UploadFile = File(...)):
     array = np.expand_dims(image, axis=0) / 255.0
     prediction = classifier.model.predict(array)
     label = np.argmax(prediction)
-    
+
     return {"label": labels[label]}
+
 
 @app.get('/')
 async def index():
