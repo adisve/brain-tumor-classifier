@@ -68,7 +68,7 @@ class Utils():
             model.summary()
     
     @staticmethod
-    def train_models(X_train, y_train, X_val, y_val, models_dict, batch_size=64, epochs=10, min_delta=0.001, patience=5, lr_factor=0.3) -> dict:
+    def train_models(X_train, y_train, X_val, y_val, models_dict, batch_size=64, epochs=30, min_delta=0.001, patience=5, lr_factor=0.3) -> dict:
         history_dict = {}
         
         early_stopping, scheduler = Utils.init_earlystopping_and_scheduler(min_delta, patience, lr_factor)
@@ -78,7 +78,7 @@ class Utils():
         return history_dict
     
     @staticmethod
-    def train_model(model_name, image_gen, X_train, y_train, X_val, y_val, model, batch_size=64, epochs=10, min_delta=0.001, patience=3, lr_factor=0.3):
+    def train_model(model_name, image_gen, X_train, y_train, X_val, y_val, model, batch_size=64, epochs=30, min_delta=0.001, patience=3, lr_factor=0.3):
         early_stopping, scheduler = Utils.init_earlystopping_and_scheduler(min_delta, patience, lr_factor)
         callbacks = Utils.init_callbacks(model_name, early_stopping, scheduler)
         model.fit(
