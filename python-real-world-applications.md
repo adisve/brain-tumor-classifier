@@ -24,46 +24,27 @@ Early and accurate diagnosis of brain tumors can significantly improve patient o
 
 An architecture diagram is a visual representation of the components or modules within a system and the relationships between them. In the context of machine learning or software development, an architecture diagram usually illustrates how different parts of the system interact with each other, what functionalities they perform, and how data flows between them.
 
-               +---------------+
-               |  Web Browser  |
-               +-------+-------+
-                       |
-                       | (User drags image)
-                       |
-                       v
-              +--------+--------+
-              |    Frontend     |
-              |  (HTML/JS/CSS)  |
-              +--------+--------+
-                       |
-                       | (Sends image via POST)
-                       |
-                       v
-             +---------+----------+
-             |      FastAPI       |
-             |     Backend API    |
-             +---------+----------+
-                       |
-                       | (Pre-process image)
-                       | (Load pre-trained model)
-                       | (Make prediction)
-                       |
-                       v
-           +-----------+------------+
-           |     Keras ML Model     |
-           +------------------------+
+```mermaid
+    graph TD;
+        A[Web Browser] -- User drags image --> B[Frontend \nHTML/JS/CSS]
+        B -- Sends image via POST --> C[FastAPI Backend API]
+        C -- Pre-process image --> D[Keras ML Model]
+        D -- Make prediction --> C
+        C -- Return prediction --> B
+        B -- Display prediction --> A
+```
 
 ## Image Preprocessing
 
 We employ image preprocessing techniques to improve the model's performance. We use OpenCV to apply filters and resize the images.
 
 ```py
-def augment_image_file(file):
-    image = cv2.imread(file, 0) 
-    image = cv2.bilateralFilter(image, 2, 50, 50)
-    image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
-    image = cv2.resize(image, (image_size, image_size))
-    return image
+    def augment_image_file(file):
+        image = cv2.imread(file, 0) 
+        image = cv2.bilateralFilter(image, 2, 50, 50)
+        image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
+        image = cv2.resize(image, (image_size, image_size))
+        return image
 ```
 
 ## Programming the Machine Learning Model
