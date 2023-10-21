@@ -1,6 +1,6 @@
 from utils._image import transform_image_file
-import os
 import numpy as np
+import os
 
 def get_subfolders(directory):
     return [f.name for f in os.scandir(directory) if f.is_dir()]
