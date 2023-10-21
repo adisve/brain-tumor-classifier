@@ -1,4 +1,4 @@
-# Brain Tumor Classification with ResNet50 and Web Service
+# Brain Tumor Classification with Convolutional Neural Networks
 
 This repository contains code for classifying different types of brain tumors using a Convolutional Neural Network (CNN) architecture called ResNet50. It also includes a web service built with FastAPI for real-time inference.
 
