@@ -43,7 +43,7 @@ def train_model_with_kfold(model, model_name, X_train, y_train, image_gen, n_spl
         train_X, val_X = X_train[train_index], X_train[val_index]
         train_y, val_y = y_train[train_index], y_train[val_index]
 
-        history = train_model(model_name, image_gen, train_X, train_y, val_X, val_y, model)
+        history = __train_model(model_name, image_gen, train_X, train_y, val_X, val_y, model)
 
         loss, acc, auc = model.evaluate(val_X, val_y)
         metrics_list.append([loss, acc, auc])
@@ -64,7 +64,7 @@ def display_summaries(models) -> None:
     for model in models.values():
         model.summary()
 
-def train_model(model_name, image_gen, X_train, y_train, X_val, y_val, model, batch_size=64, epochs=30, min_delta=0.001, patience=3, lr_factor=0.3):
+def __train_model(model_name, image_gen, X_train, y_train, X_val, y_val, model, batch_size=64, epochs=30, min_delta=0.001, patience=3, lr_factor=0.3):
     early_stopping, scheduler = init_earlystopping_and_scheduler(min_delta, patience, lr_factor)
     callbacks = init_callbacks(model_name, early_stopping, scheduler)
     model.fit(
