@@ -15,6 +15,7 @@ class Utils():
     def get_subfolders(directory):
         return [f.name for f in os.scandir(directory) if f.is_dir()]
 
+    @staticmethod
     def display_images_from_subfolders(training_dir, subfolders):
         plt.figure(figsize=(12, 8))
         for i, subfolder in enumerate(subfolders):
