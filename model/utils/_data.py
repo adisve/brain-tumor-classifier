@@ -1,8 +1,9 @@
 from utils._image import transform_image_file
+from typing import List
 import numpy as np
 import os
 
-def get_subfolders(directory):
+def get_subfolders(directory) -> List:
     return [f.name for f in os.scandir(directory) if f.is_dir()]
 
 def load_data(path, labels):

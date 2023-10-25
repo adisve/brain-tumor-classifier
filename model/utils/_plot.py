@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def plot(metric, history):
+def plot(metric, history) -> None:
     plt.figure(figsize=[8,6])
     plt.plot(history.history[metric], 'r', linewidth=3.0)
     plt.plot(history.history[f'val_{metric}'], 'b', linewidth=3.0)
