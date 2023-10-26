@@ -1,9 +1,9 @@
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 from typing import List, Tuple
 
-def init_callbacks(model_name, early_stopping, scheduler) -> List:
+def init_callbacks(arch, early_stopping, scheduler) -> List:
     checkpoint = ModelCheckpoint(
-        filepath=f'{model_name}.h5',
+        filepath=f'{arch}.h5',
         monitor='val_loss',
         verbose=1,
         save_best_only=True,
