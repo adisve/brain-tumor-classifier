@@ -8,6 +8,7 @@ class Classifier(str, Enum):
     EfficientNet = "EfficientNet"
     MobileNet = "MobileNet"
     ResNet = "ResNet"
+    CustomNet = "CustomNet"
 
 
 classifier_map = {
@@ -15,6 +16,7 @@ classifier_map = {
     "EfficientNet": "EfficientNet.h5",
     "MobileNet": "MobileNet.h5",
     "ResNet": "ResNet50.h5",
+    "CustomNet": "CustomNet.h5"
 }
 
 
@@ -27,9 +29,9 @@ def load_brain_tumor_classifier(c_key: Classifier):
             return "Classifier Model not found"
 
 
-def augment_image_cv2(image):
+def augment_image_cv2(image, size=(200, 200)):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = cv2.bilateralFilter(image, 2, 50, 50)
     image = cv2.applyColorMap(image, cv2.COLORMAP_BONE)
-    image = cv2.resize(image, (200, 200))
+    image = cv2.resize(image, size)
     return image

@@ -25,7 +25,12 @@ app.add_middleware(
 async def predict(model: Classifier, file: UploadFile = File(...)):
     file_bytes = np.asarray(bytearray(await file.read()), dtype=np.uint8)
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    image = augment_image_cv2(image)
+
+    if model == Classifier.CustomNet:
+        image = augment_image_cv2(image, size=(224, 224))
+    else:
+        image = augment_image_cv2(image)
+
     classifier_model = load_brain_tumor_classifier(model)
 
     array = np.expand_dims(image, axis=0) / 255.0
